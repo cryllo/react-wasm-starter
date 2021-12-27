@@ -7,7 +7,7 @@ const dist = path.resolve(__dirname, "dist");
 module.exports = {
 	mode: "production",
 	entry: {
-		index: "./js/index.tsx",
+		index: "./react/src/index.tsx",
 	},
 	output: {
 		path: dist,
@@ -28,10 +28,10 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new CopyPlugin([path.resolve(__dirname, "static")]),
-
+		new CopyPlugin([path.resolve(__dirname, "react", "static")]),
 		new WasmPackPlugin({
-			crateDirectory: __dirname,
+			crateDirectory: path.resolve(__dirname, "wasm"),
+			outDir: path.resolve(__dirname, "wasm", "pkg"),
 			forceMode: "production",
 		}),
 	],
