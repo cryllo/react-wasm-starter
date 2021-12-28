@@ -1,3 +1,5 @@
 node_modules
 pkg
 target
+dist
+yarn-error.log

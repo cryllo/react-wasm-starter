@@ -3,11 +3,13 @@ const CopyPlugin = require("copy-webpack-plugin");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 const dist = path.resolve(__dirname, "dist");
+const wasm = path.resolve(__dirname, "..", "wasm");
 
 module.exports = {
 	mode: "production",
+	devtool: false,
 	entry: {
-		index: "./react/src/index.tsx",
+		index: "./src/index.tsx",
 	},
 	output: {
 		path: dist,
@@ -15,7 +17,13 @@ module.exports = {
 		chunkFilename: "[name].chunk.js",
 	},
 	devServer: {
-		contentBase: dist,
+		static: dist,
+	},
+	experiments: {
+		asyncWebAssembly: true,
+	},
+	performance: {
+		hints: false,
 	},
 	resolve: {
 		// Add `.ts` and `.tsx` as a resolvable extension.
@@ -28,10 +36,10 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new CopyPlugin([path.resolve(__dirname, "react", "static")]),
+		new CopyPlugin([path.resolve(__dirname, "static")]),
 		new WasmPackPlugin({
-			crateDirectory: path.resolve(__dirname, "wasm"),
-			outDir: path.resolve(__dirname, "wasm", "pkg"),
+			crateDirectory: wasm,
+			outDir: path.resolve(wasm, "pkg"),
 			forceMode: "production",
 		}),
 	],
